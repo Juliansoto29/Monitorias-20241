@@ -19,3 +19,28 @@ write.csv(data,"Bases de datos/Datos_Rotación_editada.csv")
 install.packages("xlsx")
 library(xlsx)
 write.xlsx(data,"Bases de datos/Datos_Rotación_editada.xlsx")
+
+
+#Estructuras
+
+#Vector atomico
+
+v1 <- c(TRUE,TRUE,FALSE,FALSE)
+
+typeof(v1)
+
+length(v1)
+
+is.list(v1)
+
+#Matriz, lista de listas o vector de vectores
+m1 <- matrix(list("True",2,3,4),ncol=2,nrow=3)
+m2 <- matrix(c(TRUE,2,3,4),ncol=2,nrow=3)
+
+#Listas 
+l1 <- list("Perro",1,2,3,TRUE)
+
+unlist(l1)
+
+#Dataframe
+View(data)
