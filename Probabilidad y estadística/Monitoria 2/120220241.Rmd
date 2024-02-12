@@ -1,0 +1,227 @@
+---
+title: '120220241'
+output: html_document
+date: "2024-02-11"
+---
+
+# Parte 1
+
+Que cada estudiante cree un proyecto llamado Monitoria2. En él guardar la base datos Datos_Rotacion.xls y crear un archivo llamado codigos.r.
+
+# Parte 2
+
+Seleccionar una muestra aleatoria de la base de datos.
+
+1.  Seleccionar una muestra aleatoria de tamaño 100 entre los números 1 y 1470. Usar para esto las funciones set.seed() y sample() de R. Para la función set.seed(), cada estudiante debe usar los 3 últimos números de su cedula de ciudadanía.
+
+    ```{r}
+    set.seed(104)
+
+    muestra_aleatoria <- sample(1:1470,100)
+    ```
+
+2.  Utilizando los números aleatorios generados en el ejercicio 1, seleccionar un subconjunto de datos. Por cada número aleatorio determinados en el ejercicio 1 se debe seleccionar una fila de la base de datos. Así, se debe obtener una base de datos de 100 filas y 23 columnas.
+
+    ```{r}
+    sub_data <- Datos_Rotación[muestra_aleatoria,]
+    ```
+
+# Parte 3
+
+Para dos variables de la muestra aleatoria seleccionada, calcular indicadores de tendencia central, de variación y de posición de una variable cuantitativa continua.
+
+1.  Calcular media, mediana, varianza, desviación, coeficiente de variación y cuantiles de la variable ingresos. Comparar los resultados obtenidos por al menos 3 compañeros.
+
+    ```{r}
+    ingresos <- sub_data$Ingreso_Mensual
+
+    # Calcular la media
+    media <- mean(ingresos)
+
+    # Calcular la mediana
+    mediana <- median(ingresos)
+
+    # Calcular la varianza
+    varianza <- var(ingresos)
+
+    # Calcular la desviación estándar
+    desviacion <- sd(ingresos)
+
+    # Calcular el coeficiente de variación
+    # Coeficiente de variación = (Desviación Estándar / Media) * 100
+    coeficiente_variacion <- (desviacion / media) * 100
+
+    # Calcular cuantiles, incluyendo el mínimo (0%), 25%, 50%, 75% y máximo (100%)
+    cuantiles <- quantile(ingresos, probs = c(0, 0.25, 0.5, 0.75, 1))
+    ```
+
+2.  Que cada alumno proponga una variable que tenga sentido para calcular estos indicadores. Calcular los indicadores para la variable propuesta.
+
+    ```{r}
+
+    ```
+
+# Parte 4
+
+Analizar una variable cuantitativa por categorías de una variable cualitativa.
+
+1.  Comparar los ingresos por género. 
+
+    En una misma figura se debe construir un gráfico de cajas de ingresos para las distintas categorías del género
+
+    ```{r}
+    boxplot(ingresos ~ sub_data$Genero)
+    ```
+
+    En una misma figura se debe construir un polígono de frecuencia de ingresos para las distintas categorías del género.
+
+    ```{r}
+    sub_data_hombres <- sub_data[sub_data$Genero =="M",]
+    sub_data_mujeres <- sub_data[sub_data$Genero =="F",]
+
+    his_hombres <- hist(sub_data_hombres$Ingreso_Mensual,plot=FALSE)
+    his_mujeres <- hist(sub_data_mujeres$Ingreso_Mensual,plot=FALSE)
+
+    plot(c(0,his_hombres$mids,20000),
+         c(0,his_hombres$counts,0),
+         type = "b",
+         col = "red")
+
+    lines(c(0,his_mujeres$mids,20000),
+          c(0,his_mujeres$counts,0),
+          type = "b",
+          col = "blue")
+    ```
+
+    En una misma figura se debe construir una ojiva de ingresos para las distintas categorías del género.
+
+    ```{r}
+    plot(c(0,his_hombres$mids),
+         c(0,cumsum(his_hombres$counts)/sum(his_hombres$counts)),
+         type = "b",
+         col = "red")
+
+    lines(c(0,his_mujeres$mids),
+          c(0,cumsum(his_mujeres$counts)/sum(his_mujeres$counts)),
+          type = "b", 
+          col = "blue")
+
+    ```
+
+2.  Que cada estudiante proponga dos variables que le permitan comparar una variable cuantitativa por las categorías de una variable cualitativa
+
+    ```{r}
+
+    ```
+
+# Parte 5
+
+Estudiar las proporciones de las categorías de una variable cualitativa por las categorías de otra variable cualitativa.
+
+1.  Comparar cada estado civil por cada categoría del género usando gráfico de barras agrupados (usar tabla cruzada). Es decir, en una misma gráfica por categoría de estado civil construir un gráfico de barras del género.
+
+    ```{r}
+    tabla <- table(sub_data$Genero,sub_data$Estado_Civil)
+
+    tabla
+
+    barplot(tabla, #prop.table(tabla),
+            beside = TRUE,
+            col = c("blue","red"),
+            ylim= c(0,30))
+    ```
+
+2.  Que cada estudiante proponga 2 variables que les permita comparar las proporciones de una variable cualitativa por las categorías de otra variable cualitativa.
+
+    ```{r}
+
+    ```
+
+# Parte 6
+
+Estudiar si existe relación lineal entre dos variables cuantitativas.
+
+1.  Construir un gráfico dispersión usando las variables Ingreso_Mensual y Porcentaje_aumento_salarial.
+
+    ```{r}
+    plot(sub_data$Ingreso_Mensual,
+         sub_data$Porcentaje_aumento_salarial,
+         pch =19,
+         xlab = "Ingreso mensual",
+         ylab = "Porcentaje aumento salarial")
+
+    plot(sub_data$Porcentaje_aumento_salarial,
+         sub_data$Ingreso_Mensual,
+         pch =19,
+         ylab = "Ingreso mensual",
+         xlab = "Porcentaje aumento salarial")
+    ```
+
+2.  Construir el gráfico anterior identificando por las categorías del Campo_Educación.
+
+    ```{r}
+    campos_educación <- unique(sub_data$Campo_Educación)
+
+
+    colores <- c("red","blue","green","black","orange","purple")
+
+
+
+    plot(sub_data[sub_data$Campo_Educación == campos_educación[1],]$Porcentaje_aumento_salarial,
+         sub_data[sub_data$Campo_Educación == campos_educación[1],]$Ingreso_Mensual,
+         ylab = "Ingreso mensual",
+         xlab = "Porcentaje aumento salarial",
+         col = colores[1],
+         pch = 19,
+         xlim = c(10,35),
+         ylim = c(0,20000))
+
+    legend("topright",
+           campos_educación,
+           fill = colores)
+
+    points(sub_data[sub_data$Campo_Educación == campos_educación[2],]$Porcentaje_aumento_salarial,
+         sub_data[sub_data$Campo_Educación == campos_educación[2],]$Ingreso_Mensual,
+         ylab = "Ingreso mensual",
+         xlab = "Porcentaje aumento salarial",
+         col = colores[2],
+         pch = 19)
+
+    points(sub_data[sub_data$Campo_Educación == campos_educación[3],]$Porcentaje_aumento_salarial,
+         sub_data[sub_data$Campo_Educación == campos_educación[3],]$Ingreso_Mensual,
+         ylab = "Ingreso mensual",
+         xlab = "Porcentaje aumento salarial",
+         col = colores[3],
+         pch = 19)
+
+    points(sub_data[sub_data$Campo_Educación == campos_educación[4],]$Porcentaje_aumento_salarial,
+         sub_data[sub_data$Campo_Educación == campos_educación[4],]$Ingreso_Mensual,
+         ylab = "Ingreso mensual",
+         xlab = "Porcentaje aumento salarial",
+         col = colores[4],
+         pch = 19)
+
+    points(sub_data[sub_data$Campo_Educación == campos_educación[5],]$Porcentaje_aumento_salarial,
+         sub_data[sub_data$Campo_Educación == campos_educación[5],]$Ingreso_Mensual,
+         ylab = "Ingreso mensual",
+         xlab = "Porcentaje aumento salarial",
+         col = colores[5],
+         pch = 19)
+
+    points(sub_data[sub_data$Campo_Educación == campos_educación[6],]$Porcentaje_aumento_salarial,
+         sub_data[sub_data$Campo_Educación == campos_educación[6],]$Ingreso_Mensual,
+         ylab = "Ingreso mensual",
+         xlab = "Porcentaje aumento salarial",
+         col = colores[6],
+         pch = 19)
+    ```
+
+3.  Que cada estudiante proponga dos variables para revisar relación lineal entre dos variables.
+
+    ```{r}
+
+    ```
+
+# Parte 7
+
+Construir un html con las intrucciones, salidas y comentarios.
