@@ -1,0 +1,654 @@
+---
+title: "Monitoria 3"
+author: "Julián Soto"
+date: "2024-02-24"
+output: html_document
+---
+
+**Descripción del experimento**
+
+Suponer que se lanza al aire una moneda balanceada. El interés de este ejercicio es estimar la probabilidad de caer cara. Se utiliza el software R para simular los lanzamientos de la moneda usando la función rbinom(n, size=1,prob=0.5). Usar la siguiente notación: C=caer cara, fn(C) es la frecuencia relativa de caer cara, P(C) la probabilidad de caer cara.
+
+1.  Simular el lanzamiento de una moneda balanceada n=5 veces y calcular la frecuencia relativa de caer cara.
+
+    ```{r}
+    #Supongamos que caer Cara es 1
+
+    set.seed(111)
+
+    experimento <- rbinom(5, size=1,prob=0.5)
+
+
+    print(experimento)
+
+
+    f_n_1 <- sum(experimento)/5
+    print(f_n_1)
+    ```
+
+2.  Simular el lanzamiento de una moneda 20 veces y calcular la frecuencia relativa de caer cara.
+
+    ```{r}
+    set.seed(111)
+
+    experimento <- rbinom(20, size=1,prob=0.5)
+
+
+    print(experimento)
+
+
+    f_n_1 <- sum(experimento)/20
+    print(f_n_1)
+    ```
+
+3.  Simular 100 veces que la moneda balanceada se lanza n=5 veces. Luego:
+
+    ```{r}
+    set.seed(105)
+
+    muestras <- replicate(100, rbinom(5, size=1,prob=0.5))
+    ```
+
+    1.  Calcular la frecuencia relativa de caer cara por cada uno de las 100 simulaciones. Debes tener 100 valores de frecuencias relativas de caer cara.
+
+    ```{r}
+    f_n <- c()
+
+    for (i in 1:100){
+      f_n <- c(f_n,sum(muestras[,i])/5)
+    }
+    ```
+
+    2.  Construir un gráfico de dispersión donde en el eje Y ubiques los resultados de las frecuencias relativas de caer cara y en el eje X los valores de 1 a 100 (indexación por cada simulación de los n=5 lanzamientos de la moneda).
+
+    ```{r}
+    plot(1:100,
+         f_n,
+         pch=19,
+         ylab="frecuencias relativas(%)",
+         xlab ="Simulación",
+         
+         sub="Figura 1. Simulación de 1000 experimentos")
+
+    ```
+
+    3.  Trazar una línea paralela al eje X que corte en el eje Y en el valor de la probabilidad P(C).
+
+    ```{r}
+      plot(1:100,
+         f_n,pch=19,
+         ylab="frecuencias relativas(%)",
+         xlab ="Simulación",
+         sub="Figura 1. Simulación de 1000 experimentos")
+
+      lines(1:100,
+            rep(1/2,100))
+
+    ```
+
+    4.  Interpretar el gráfico de dispersión comparando los resultados experimentales f~n~(C) y el teórico P(C).  
+
+    ```{r}
+      set.seed(105)
+
+      muestras <- replicate(100, rbinom(5, size=1,prob=0.5))
+      
+      f_n <- c()
+
+      for (i in 1:100){
+        f_n <- c(f_n,sum(muestras[,i])/5)
+      }
+      
+      plot(1:100,
+         f_n,pch=19,
+         ylab="frecuencias relativas(%)",
+         xlab ="Simulación",
+         
+         sub="Figura 1. Simulación de 1000 experimentos")
+      
+      lines(1:100,
+            rep(1/2,100))
+
+    ```
+
+4.  Repetir el ejercicio 3 usando n=10.
+
+    ```{r}
+    set.seed(105)
+    n<-10
+
+    muestras <- replicate(100, rbinom(n, size=1,prob=0.5))
+
+    f_n <- c()
+
+    for (i in 1:100){
+      f_n <- c(f_n,sum(muestras[,i])/n)
+    }
+
+    plot(1:100,
+       f_n,pch=19,
+       ylab="frecuencias relativas(%)",
+       xlab ="Simulación",
+       #ylim= c(0,1),
+       sub="Figura 2. Diagrama de dispersión de las frecuencias relativas con n=10")
+
+    lines(1:100,
+          rep(1/2,100))
+    ```
+
+5.  Repetir el ejercicio 3 usando n=20.
+
+    ```{r}
+    set.seed(105)
+    n<-20
+
+    muestras <- replicate(100, rbinom(n, size=1,prob=0.5))
+
+    f_n <- c()
+
+    for (i in 1:100){
+      f_n <- c(f_n,sum(muestras[,i])/n)
+    }
+
+    plot(1:100,
+       f_n,pch=19,
+       ylab="frecuencias relativas(%)",
+       xlab ="Simulación",
+       #ylim= c(0,1),
+       sub="Figura 3. Diagrama de dispersión de las frecuencias relativas con n=20")
+
+    lines(1:100,
+          rep(1/2,100))
+
+    ```
+
+6.  Repetir el ejercicio 3 usando n=30.
+
+    ```{r}
+    set.seed(105)
+    n<-30
+
+    muestras <- replicate(100, rbinom(n, size=1,prob=0.5))
+
+    f_n <- c()
+
+    for (i in 1:100){
+      f_n <- c(f_n,sum(muestras[,i])/n)
+    }
+
+    plot(1:100,
+       f_n,pch=19,
+       ylab="frecuencias relativas(%)",
+       xlab ="Simulación",
+       #ylim= c(0,1),
+       sub="Figura 4. Diagrama de dispersión de las frecuencias relativas con n=30")
+
+    lines(1:100,
+          rep(1/2,100))
+
+    ```
+
+7.  Repetir el ejercicio 3 usando n=40.
+
+    ```{r}
+    set.seed(105)
+    n<-40
+
+    muestras <- replicate(100, rbinom(n, size=1,prob=0.5))
+
+    f_n <- c()
+
+    for (i in 1:100){
+      f_n <- c(f_n,sum(muestras[,i])/n)
+    }
+
+    plot(1:100,
+       f_n,pch=19,
+       ylab="frecuencias relativas(%)",
+       xlab ="Simulación",
+       #ylim= c(0,1),
+       sub="Figura 5. Diagrama de dispersión de las frecuencias relativas con n=40")
+
+    lines(1:100,
+          rep(1/2,100))
+
+    ```
+
+8.  Repetir el ejercicio 3 usando n=50.
+
+    ```{r}
+    set.seed(105)
+    n<-50
+
+    muestras <- replicate(100, rbinom(n, size=1,prob=0.5))
+
+    f_n <- c()
+
+    for (i in 1:100){
+      f_n <- c(f_n,sum(muestras[,i])/n)
+    }
+
+    plot(1:100,
+       f_n,pch=19,
+       ylab="frecuencias relativas(%)",
+       xlab ="Simulación",
+       #ylim= c(0,1),
+       sub="Figura 6. Diagrama de dispersión de las frecuencias relativas con n=50")
+
+    lines(1:100,
+          rep(1/2,100))
+
+    ```
+
+9.  Repetir el ejercicio 3 usando n=80.
+
+    ```{r}
+    set.seed(105)
+    n<-80
+
+    muestras <- replicate(100, rbinom(n, size=1,prob=0.5))
+
+    f_n <- c()
+
+    for (i in 1:100){
+      f_n <- c(f_n,sum(muestras[,i])/n)
+    }
+
+    plot(1:100,
+       f_n,pch=19,
+       ylab="frecuencias relativas(%)",
+       xlab ="Simulación",
+       #ylim= c(0,1),
+       sub="Figura 7. Diagrama de dispersión de las frecuencias relativas con n=80")
+
+    lines(1:100,
+          rep(1/2,100))
+
+    ```
+
+10. Repetir el ejercicio 3 usando n=150.
+
+    ```{r}
+    set.seed(105)
+    n<-150
+
+    muestras <- replicate(100, rbinom(n, size=1,prob=0.5))
+
+    f_n <- c()
+
+    for (i in 1:100){
+      f_n <- c(f_n,sum(muestras[,i])/n)
+    }
+
+    plot(1:100,
+       f_n,pch=19,
+       ylab="frecuencias relativas(%)",
+       xlab ="Simulación",
+       #ylim= c(0,1),
+       sub="Figura 8. Diagrama de dispersión de las frecuencias relativas con n=150")
+
+    lines(1:100,
+          rep(1/2,100))
+
+    ```
+
+11. Repetir el ejercicio 3 usando n=200.
+
+    ```{r}
+    set.seed(105)
+    n<-200
+
+    muestras <- replicate(100, rbinom(n, size=1,prob=0.5))
+
+    f_n <- c()
+
+    for (i in 1:100){
+      f_n <- c(f_n,sum(muestras[,i])/n)
+    }
+
+    plot(1:100,
+       f_n,pch=19,
+       ylab="frecuencias relativas(%)",
+       xlab ="Simulación",
+       #ylim= c(0,1),
+       sub="Figura 9. Diagrama de dispersión de las frecuencias relativas con n=200")
+
+    lines(1:100,
+          rep(1/2,100))
+
+    ```
+
+12. Repetir el ejercicio 3 usando n=400.
+
+    ```{r}
+    set.seed(105)
+    n<-400
+
+    muestras <- replicate(100, rbinom(n, size=1,prob=0.5))
+
+    f_n <- c()
+
+    for (i in 1:100){
+      f_n <- c(f_n,sum(muestras[,i])/n)
+    }
+
+    plot(1:100,
+       f_n,pch=19,
+       ylab="frecuencias relativas(%)",
+       xlab ="Simulación",
+       #ylim= c(0,1),
+       sub="Figura 10. Diagrama de dispersión de las frecuencias relativas con n=400")
+
+    lines(1:100,
+          rep(1/2,100))
+
+    ```
+
+13. Repetir el ejercicio 3 usando n=500.
+
+    ```{r}
+    set.seed(105)
+    n<-500
+
+    muestras <- replicate(100, rbinom(n, size=1,prob=0.5))
+
+    f_n <- c()
+
+    for (i in 1:100){
+      f_n <- c(f_n,sum(muestras[,i])/n)
+    }
+
+    plot(1:100,
+       f_n,pch=19,
+       ylab="frecuencias relativas(%)",
+       xlab ="Simulación",
+       #ylim= c(0,1),
+       sub="Figura 11. Diagrama de dispersión de las frecuencias relativas con n=500")
+
+    lines(1:100,
+          rep(1/2,100))
+
+    ```
+
+14. Repetir el ejercicio 3 usando n=600.
+
+    ```{r}
+    set.seed(105)
+    n<-600
+
+    muestras <- replicate(100, rbinom(n, size=1,prob=0.5))
+
+    f_n <- c()
+
+    for (i in 1:100){
+      f_n <- c(f_n,sum(muestras[,i])/n)
+    }
+
+    plot(1:100,
+       f_n,pch=19,
+       ylab="frecuencias relativas(%)",
+       xlab ="Simulación",
+       #ylim= c(0,1),
+       sub="Figura 12. Diagrama de dispersión de las frecuencias relativas con n=600")
+
+    lines(1:100,
+          rep(1/2,100))
+
+    ```
+
+15. Repetir el ejercicio 3 usando n=700.
+
+    ```{r}
+    set.seed(105)
+    n<-700
+
+    muestras <- replicate(100, rbinom(n, size=1,prob=0.5))
+
+    f_n <- c()
+
+    for (i in 1:100){
+      f_n <- c(f_n,sum(muestras[,i])/n)
+    }
+
+    plot(1:100,
+       f_n,pch=19,
+       ylab="frecuencias relativas(%)",
+       xlab ="Simulación",
+       #ylim= c(0,1),
+       sub="Figura 13. Diagrama de dispersión de las frecuencias relativas con n=700")
+
+    lines(1:100,
+          rep(1/2,100))
+
+    ```
+
+16. Repetir el ejercicio 3 usando n=800.
+
+    ```{r}
+    set.seed(105)
+    n<-800
+
+    muestras <- replicate(100, rbinom(n, size=1,prob=0.5))
+
+    f_n <- c()
+
+    for (i in 1:100){
+      f_n <- c(f_n,sum(muestras[,i])/n)
+    }
+
+    plot(1:100,
+       f_n,pch=19,
+       ylab="frecuencias relativas(%)",
+       xlab ="Simulación",
+       #ylim= c(0,1),
+       sub="Figura 14. Diagrama de dispersión de las frecuencias relativas con n=800")
+
+    lines(1:100,
+          rep(1/2,100))
+
+    ```
+
+17. Repetir el ejercicio 3 usando n=900.
+
+    ```{r}
+      set.seed(105)
+      n<-900
+
+      muestras <- replicate(100, rbinom(n, size=1,prob=0.5))
+
+      f_n <- c()
+
+      for (i in 1:100){
+    f_n <- c(f_n,sum(muestras[,i])/n)
+      }
+
+      plot(1:100,
+     f_n,pch=19,
+     ylab="frecuencias relativas(%)",
+     xlab ="Simulación",
+     #ylim= c(0,1),
+     sub="Figura 15. Diagrama de dispersión de las frecuencias relativas con n=900")
+
+      lines(1:100,
+        rep(1/2,100))
+
+    ```
+
+18. Repetir el ejercicio 3 usando n=1000.
+
+```{r}
+set.seed(105)
+n<-1000
+
+muestras <- replicate(100, rbinom(n, size=1,prob=0.5))
+
+f_n <- c()
+
+for (i in 1:100){
+  f_n <- c(f_n,sum(muestras[,i])/n)
+}
+
+plot(1:100,
+   f_n,pch=19,
+   ylab="frecuencias relativas(%)",
+   xlab ="Simulación",
+   #ylim= c(0,1),
+   sub="Figura 16. Diagrama de dispersión de las frecuencias relativas con n=1000")
+
+lines(1:100,
+      rep(1/2,100))
+
+```
+
+19. Repetir el ejercicio 3 usando n=2000.
+
+```{r}
+set.seed(105)
+n<-2000
+
+muestras <- replicate(100, rbinom(n, size=1,prob=0.5))
+
+f_n <- c()
+
+for (i in 1:100){
+  f_n <- c(f_n,sum(muestras[,i])/n)
+}
+
+plot(1:100,
+   f_n,pch=19,
+   ylab="frecuencias relativas(%)",
+   xlab ="Simulación",
+   #ylim= c(0,1),
+   sub="Figura 17. Diagrama de dispersión de las frecuencias relativas con n=2000")
+
+lines(1:100,
+      rep(1/2,100))
+
+```
+
+20. Repetir el ejercicio 3 usando n=3000.
+
+```{r}
+set.seed(105)
+n<-3000
+
+muestras <- replicate(100, rbinom(n, size=1,prob=0.5))
+
+f_n <- c()
+
+for (i in 1:100){
+  f_n <- c(f_n,sum(muestras[,i])/n)
+}
+
+plot(1:100,
+   f_n,pch=19,
+   ylab="frecuencias relativas(%)",
+   xlab ="Simulación",
+   #ylim= c(0,1),
+   sub="Figura 18. Diagrama de dispersión de las frecuencias relativas con n=3000")
+
+lines(1:100,
+      rep(1/2,100))
+
+```
+
+21. Repetir el ejercicio 3 usando n=5000.
+
+```{r}
+set.seed(105)
+n<-5000
+
+muestras <- replicate(100, rbinom(n, size=1,prob=0.5))
+
+f_n <- c()
+
+for (i in 1:100){
+  f_n <- c(f_n,sum(muestras[,i])/n)
+}
+
+plot(1:100,
+   f_n,pch=19,
+   ylab="frecuencias relativas(%)",
+   xlab ="Simulación",
+   #ylim= c(0,1),
+   sub="Figura 19. Diagrama de dispersión de las frecuencias relativas con n=5000")
+
+lines(1:100,
+      rep(1/2,100))
+
+```
+
+22. Repetir el ejercicio 3 usando n=10000
+
+```{r}
+set.seed(105)
+n<-10000
+
+muestras <- replicate(100, rbinom(n, size=1,prob=0.5))
+
+f_n <- c()
+
+for (i in 1:100){
+  f_n <- c(f_n,sum(muestras[,i])/n)
+}
+
+plot(1:100,
+   f_n,pch=19,
+   ylab="frecuencias relativas(%)",
+   xlab ="Simulación",
+   #ylim= c(0,1),
+   sub="Figura 20. Diagrama de dispersión de las frecuencias relativas con n=10000")
+
+lines(1:100,
+      rep(1/2,100))
+
+```
+
+23. Comparar los gráficos del punto 3 al 22.
+
+24. Simular que una moneda balanceada fue lanzada n veces, n=2, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000 y 10000.  Para estas simulaciones:
+
+    1.  Por cada valor de n calcular f~n~(C).
+
+    ```{r}
+    set.seed(105)
+    n <- c(2, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000)
+    #n <- 1:10000
+    f_n <- c()
+    for (i in n){
+      f_n <- c(f_n,sum(rbinom(i, size=1,prob=0.5))/i)
+    }
+
+    ```
+
+    2.  Construir un gráfico de dispersión donde en el eje Y ubiques los resultados de f~n~(C) y en el eje X los valores de n.
+
+    ```{r}
+       plot(1:30,
+       f_n,
+       pch=19,
+       ylab="frecuencias relativas(%)",
+       xlab ="n",
+       #ylim= c(0,1),
+       sub="Figura 20. Diagrama de dispersión de las frecuencias relativas segun el crecimiento de n")
+
+    ```
+
+    3.  Trazar una línea paralela al eje X que corte en el eje Y en el valor de la probabilidad de caer cara P(C).
+
+    ```{r}
+       plot(1:30,
+       f_n,
+       pch=19,
+       ylab="frecuencias relativas(%)",
+       xlab ="n",
+       #ylim= c(0,1),
+       sub="Figura 20. Diagrama de dispersión de las frecuencias relativas segun el crecimiento de n")
+       lines(-1:32,
+      rep(1/2,34),
+      col="red",
+      lwd=1)
+
+    ```
+
+    4.  Interpretar los resultados que relacionan a f~n~(C) y P(C) conforme aumenta el valor de n.
