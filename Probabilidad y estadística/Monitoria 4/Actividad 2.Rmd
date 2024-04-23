@@ -1,0 +1,80 @@
+---
+title: "Actividad 2"
+author: "Julián Soto"
+date: "2024-03-10"
+output: html_document
+---
+
+Suponer que un experimento aleatorio consiste la selección de un componente electrónico al azar. La probabilidad de que un componente falle después de 5 años es 0.1. Suponer que el tiempo de vida entre los componentes es independiente uno del otro. Si se seleccionan al azar 3 componentes electrónicos, el interés de este ejercicio es estimar la probabilidad de que los 3 componentes fallen después de 5 años. Utilizar el software R para simular la selección al azar de los componentes usando la función rbinom(n, size=3,prob=0.5). Emplear la siguiente notación: X=número de componentes que fallan después de 5 años, fn(X=3) es la frecuencia relativa de que 3 componentes fallen después de 5 años, P(X=3) la probabilidad de que 3 componentes fallen después de 5 años. El valor de n en este caso representa el número de veces que se repite el experimento aleatorio.
+
+# Punto 1
+
+Simular el experimento aleatorio n=1000 veces y calcular la frecuencia relativa de que X=3. Luego repetir lo anterior 100 veces. Debes tener 100 valores de frecuencias relativas.
+
+```{r}
+set.seed(105)
+
+n <- 1000
+repetir <- 100
+
+muestras <- replicate(repetir,  rbinom(n, size=3,prob=0.1))
+fn <- c()
+
+for (i in 1:repetir){
+  fn <- c(fn, sum(muestras[,i]==3)/n)
+}
+```
+
+## Punto a)
+
+Construir un gráfico de dispersión donde en el eje Y ubiques los resultados de las frecuencias relativas y en el eje X los valores de 1 a 100.
+
+```{r}
+plot(1:100,
+     fn,
+     pch=19,
+     xlab = "Simulación",
+     ylab = "Frecuencia relativa")
+```
+
+## Punto b)
+
+Trazar una línea paralela al eje X que corte en el eje Y en el valor de la probabilidad P(X=3).
+
+```{r}
+plot(1:100,
+     fn,
+     pch=19,
+     xlab = "Simulación",
+     ylab = "Frecuencia relativa")
+lines(1:100,
+      rep(1/1000,100))
+```
+
+## Punto c)
+
+Interpretar el gráfico de dispersión comparando los resultados experimentales fn(X=3) y el teórico P(X=3).
+
+```{r}
+
+```
+
+# Punto 2
+
+Simular el experimento aleatorio n veces, donde n=2, 5, 10, 20, 30, 40, 50, 80, 150, 200, 400, 500, 600, 700, 800, 900, 1000, 2000, 5000, 10000. Debes tener 20 valores de frecuencias relativas, uno por cada valor de n. Construir un gráfico de dispersión donde en el eje Y ubiques los resultados de fn(X=3) y en el eje X los valores de n. Trazar una línea paralela al eje X que corte en el eje Y en el valor de la probabilidad P(X=3). Interpretar los resultados que relacionan a fn(X=3) y P(X=3) conforme aumenta el valor de n. Interpretar usando la ley de los números grandes.
+
+```{r}
+n <- c(2, 5, 10, 20, 30, 40, 50, 80, 150, 200, 400, 500, 600, 700, 800, 900, 1000, 2000, 5000, 10000)
+
+fn <- c()
+for(i in n){
+  fn <- c(fn, sum(rbinom(i, size=3,prob=0.1)==3)/i)
+}
+x<- 1:20
+plot(x,
+     fn,
+     pch=19)
+
+lines(x,
+     rep(0.001,20))
+```

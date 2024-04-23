@@ -1,0 +1,233 @@
+---
+title: "Monitoria 5"
+author: "Julián Soto"
+date: "2024-04-21"
+output: html_document
+---
+
+# Punto 1
+
+Suponer que la variable aleatoria X se modela con una distribución de Poisson con parámetro lambda. Se utiliza en este caso la parametrización que se usa en el software R.
+
+## 1.
+
+Graficar la función de probabilidad de X para distintos valores del parámetro, lambda =5, 10, 20 y 30. Describir los gráficos y compararlos.
+
+```{r}
+#Tomado de: https://r-coder.com/distribucion-poisson-r/ 
+
+par(mfrow=c(2,2))
+x <- 0:50
+lambda <- c(5, 10, 20, 30)
+
+for (i in lambda){
+     plot(dpois(x, i), type = "h", lwd = 2,
+     main = "Función de masa de probabilidad",
+     ylab = "P(X = x)", xlab = "Número de eventos",
+     ylim=c(0,0.2),
+     col = i)
+}
+
+```
+
+```{r}
+#Tomado de: https://r-coder.com/distribucion-poisson-r/ 
+
+x <- 0:50
+lambda <- c(5, 10, 20, 30)
+
+plot(dpois(x, lambda[1]), 
+     type = "h", 
+     lwd = 2,
+     main = "Función de masa de probabilidad",
+     ylab = "P(X = x)", 
+     xlab = "Número de eventos",
+     ylim=c(0,0.2),
+     col = 1
+     )
+
+
+for (i in 2:4){
+     lines(dpois(x, lambda[i]), 
+           type = "h", 
+           lwd = 2, 
+           col = i)
+}
+
+legend("topright", 
+       legend = as.character(lambda),
+       title = expression(lambda), 
+       lty = 1, 
+       col = 1:4, 
+       lwd = 2
+       )
+```
+
+## 2.
+
+Calcular la esperanza matemática de X cuando lambda toma valores de 5, 10, 20 y 30. Interpretar resultados.
+
+## 3.
+
+Para una variable aleatoria X que se modela con una función de probabilidad con parámetro lambda=20, generar 100 muestras aleatorias de tamaño n=1000. Por cada muestra aleatoria, calcular la media muestral. Para estos resultados construir un gráfico de dispersión donde en el eje Y ubiques los resultados de las medias muestrales y en el eje X los valores de 1 a 100 (indexación por muestra). Además, trazar una línea paralela al eje X que corte en el eje Y en el valor teórico de la esperanza matemática de la variable X. Interpretar el grafico y la relación de los resultados muestrales y teóricos.
+
+```{r}
+set.seed(105)
+e <- 1
+lambda <- 20
+n_muestras <- 100
+n_observaciones <- 1000
+
+muestras <- replicate(n_muestras,  rpois(n_observaciones, lambda))
+
+media_muestral <- colMeans(muestras)
+
+plot(1:100, media_muestral,
+     pch=19,
+     ylim = c(lambda - e,lambda + e),
+     )
+abline(h=20)
+
+```
+
+## 4.
+
+Para una variable aleatoria X que se modela con una función de probabilidad con parámetro lambda=20 seleccionar 20 muestras aleatorias de tamaños n=2, 5, 10, 20, 30, 40, 50, 60, 70, 80, 100, 200, 300, 400, 500, 1000, 2000, 3000, 5000, 10000. Por cada muestra calcular la media muestral. Construir un gráfico de dispersión donde en el eje Y ubiques los resultados de las medias muestrales y en el eje X los valores de 1 a 20 (indexación por muestra). Además, trazar una línea paralela al eje X que corte en el eje Y en el valor de la esperanza matemática de X.Interpretar el grafico y la relación de los resultados muestrales y teóricos.
+
+```{r}
+set.seed(105)
+
+lambda <- 20
+n_observaciones <- c(2, 5, 10, 20, 30, 40, 50, 60, 70, 80, 100, 200, 300, 400, 500, 1000, 2000, 3000, 5000, 10000)
+
+media_muestral <- c()
+
+for (i in n_observaciones){
+  media_muestral <- c(media_muestral, mean(rpois(i, lambda) ))  
+}
+
+plot(1:length(n_observaciones),
+     media_muestral,
+     pch=19,
+)
+abline(h=20)
+```
+
+# Punto 2
+
+Suponer que la variable aleatoria X se modela con una distribución Gamma. Se utiliza en este caso la parametrización que se usa en el software R.
+
+## 1.
+
+Graficar la función de densidad de X para distintos valores de los parámetros. shape=2 y scale=3, 5, 10, 15 y 20 (todas estas curvas en un mismo gráfico). Además, shape=1 y scale=3, 5, 10, 15 y 20 (todas estas curvas en un mismo gráfico). Describir y comparar las curvas de densidad.
+
+```{r}
+#par(mfrow=c(2,2))
+x <-  seq(0, 40, by=0.001)  
+
+shape <- c(2,1)
+
+scale <- c(3, 5, 10, 15, 20)
+
+plot(x,
+     dgamma(x,shape= shape[1], scale = scale[1]), 
+     type = "l",
+     col= 1,
+     ylab= "P(X=x)",
+     main= paste("Distribución gamma con shape =", shape[1])
+     )
+
+for (i in 2:length(scale)){
+  lines(x,
+        dgamma(x,shape= shape[1], scale = scale[i]),
+        col=i
+        )
+}
+
+legend("topright", 
+       legend = as.character(scale),
+       title = "Scale:", 
+       lty = 1, 
+       col = 1:length(scale), 
+       lwd = 2
+       )
+####################################################################
+plot(x,
+     dgamma(x,shape= shape[2], scale = scale[1]), 
+     type = "l",
+     col= 1,
+     ylab= "P(X=x)",
+     main= paste("Distribución gamma con shape =", shape[2])
+     )
+
+for (i in 2:length(scale)){
+  lines(x,
+        dgamma(x,shape= shape[2], scale = scale[i]),
+        col=i
+        )
+}
+
+legend("topright", 
+       legend = as.character(scale),
+       title = "Scale:", 
+       lty = 1, 
+       col = 1:length(scale), 
+       lwd = 2
+       )
+```
+
+## 2.
+
+Calcular la esperanza matemática de la variable aleatoria X cuando esta se modela con una función de densidad Gamma con parámetros shape=2 y scale=10. Interpretar resultados.
+
+## 3.
+
+Para una variable aleatoria X que se modela con función de densidad de la Gamma con parámetros shape=2 y scale=10, generar 100 muestras aleatorias de tamaño n=1000. Por cada muestra aleatoria calcular media muestral muestral. Para estos resultados construir un gráfico de dispersión donde en el eje Y ubiques los resultados de las medias muestrales y en el eje X los valores de 1 a 100 (indexación por muestra). Además, trazar una línea paralela al eje X que corte en el eje Y en el valor teórico de la esperanza matemática de la variable X. Interpretar el gráfico y la relación de los resultados muestrales y teóricos.
+
+```{r}
+# Tomado de: En console poner:: ?dgamma
+set.seed(105)
+e <- 0.2
+shape <- 2
+scale <- 10
+E <- shape*scale
+
+n_muestras <- 100
+n_observaciones <- 1000
+
+muestras <- replicate(n_muestras,  rgamma(x,shape= shape, scale = scale ) )
+
+media_muestral <- colMeans(muestras)
+
+plot(1:100, media_muestral,
+     pch=19,
+     ylim = c(E - e,E + e),
+     )
+abline(h=E)
+```
+
+## 4.
+
+Para una variable aleatoria X que se modela con función de densidad de la Gamma con parámetros shape=2 y scale=10, generar 20 muestras aleatorias de tamaños n=2, 5, 10, 20, 30, 40, 50, 60, 70, 80, 100, 200, 300, 400, 500, 1000, 2000, 3000, 5000, 10000. Por cada muestra aleatoria, calcular la media muestral. Interpretar el grafico y la relación de los resultados muestrales y teóricos.
+
+```{r}
+set.seed(105)
+
+shape <- 2
+scale <- 10
+E <- shape*scale
+
+n_observaciones <- c(2, 5, 10, 20, 30, 40, 50, 60, 70, 80, 100, 200, 300, 400, 500, 1000, 2000, 3000, 5000, 10000)
+
+media_muestral <- c()
+
+for (i in n_observaciones){
+  media_muestral <- c(media_muestral, mean(rgamma(i,shape= shape, scale = scale ) ))  
+}
+
+plot(1:length(n_observaciones),
+     media_muestral,
+     pch=19,
+)
+abline(h=E)
+```
